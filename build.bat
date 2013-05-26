@@ -50,10 +50,21 @@ cd tmp_libcurl\curl*\vs\vc6\lib
 vcbuild /upgrade vc6libcurl.dsp
 
 REM Build!
-vcbuild vc6libcurl.vcproj "LIB Release|Win32" /errfile:build_errors.txt /wrnfile:build_warnings.txt
+vcbuild vc6libcurl.vcproj /errfile:build_errors.txt /wrnfile:build_warnings.txt
 
-REM Copy compiled .*lib files to third-party folder
+REM Copy compiled .*lib files in lib-release folder to third-party folder
 xcopy "lib-release\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
+
+REM Copy compiled .*lib files in lib-debug folder to third-party folder
+xcopy "lib-debug\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
+
+REM Copy compiled .*lib and *.dll files in dll-release folder to third-party folder
+xcopy "dll-release\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
+xcopy "dll-release\*.dll" %ROOT_DIR%\third-party\libpng\lib\ /S
+
+REM Copy compiled .*lib and *.dll files in dll-debug folder to third-party folder
+xcopy "dll-debug\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
+xcopy "dll-debug\*.dll" %ROOT_DIR%\third-party\libpng\lib\ /S
 
 REM Copy include folder to third-party folder
 cd %ROOT_DIR%\tmp_libcurl\curl*\
