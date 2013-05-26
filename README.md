@@ -13,6 +13,24 @@ Output :
     |-- libpng
     |    |-- include
     |    +-- lib
+    
+
+## Release
+**static linking**
+*  libcurl.lib
+    
+**dynamic linking (dll)**
+*  libcurl.dll
+*  libcurl_imp.lib
+
+## Debug
+
+**static linking**
+*  libcurld.lib
+    
+**dynamic linking (dll)**
+*  libcurld.dll
+*  libcurld_imp.lib
 
 License (build.bat)
 -----------
