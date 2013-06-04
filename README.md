@@ -10,7 +10,7 @@ Usage :
 Output :
 
     third-party
-    |-- libpng
+    |-- libcurl
     |    |-- include
     |    +-- lib
     

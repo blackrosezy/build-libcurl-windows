@@ -13,7 +13,19 @@ if exist %MSVCDIR% (
 	goto begin
 )
 
-echo Warning : Microsoft Visual Studio is not installed.
+REM Check if Visual Studio 2010 is installed
+set MSVCDIR="C:\Program Files\Microsoft Visual Studio 10.0\VC\vcpackages"
+if exist %MSVCDIR% (
+	goto begin
+)
+
+REM Check if Visual Studio 2012 is installed
+set MSVCDIR="C:\Program Files\Microsoft Visual Studio 11.0\VC\vcpackages"
+if exist %MSVCDIR% (
+	goto begin
+)
+
+echo Warning : Microsoft Visual Studio (2005, 2008, 2010 or 2012) is not installed.
 goto end
 
 :begin
@@ -36,10 +48,12 @@ echo Setting up environment
 path %path%;%MSVCDIR%
 
 REM Get download url .Look under <blockquote><a type='application/zip' href='xxx'>
+echo Get download url...
 %XIDEL% http://curl.haxx.se/download.html -e "//blockquote/a[@type='application/zip']/@href" > tmp_url
 set /p url=<tmp_url
 
 REM Download latest curl and rename to curl.zip
+echo Downloading latest curl...
 %WGET% "http://curl.haxx.se%url%" -O curl.zip
 
 REM Extract downloaded zip file to tmp_libcurl
@@ -53,25 +67,25 @@ REM Build!
 vcbuild vc6libcurl.vcproj /errfile:build_errors.txt /wrnfile:build_warnings.txt
 
 REM Copy compiled .*lib files in lib-release folder to third-party folder
-xcopy "lib-release\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
+xcopy "lib-release\*.lib" %ROOT_DIR%\third-party\libcurl\lib\ /S
 
 REM Copy compiled .*lib files in lib-debug folder to third-party folder
-xcopy "lib-debug\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
+xcopy "lib-debug\*.lib" %ROOT_DIR%\third-party\libcurl\lib\ /S
 
 REM Copy compiled .*lib and *.dll files in dll-release folder to third-party folder
-xcopy "dll-release\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
-xcopy "dll-release\*.dll" %ROOT_DIR%\third-party\libpng\lib\ /S
+xcopy "dll-release\*.lib" %ROOT_DIR%\third-party\libcurl\lib\ /S
+xcopy "dll-release\*.dll" %ROOT_DIR%\third-party\libcurl\lib\ /S
 
 REM Copy compiled .*lib and *.dll files in dll-debug folder to third-party folder
-xcopy "dll-debug\*.lib" %ROOT_DIR%\third-party\libpng\lib\ /S
-xcopy "dll-debug\*.dll" %ROOT_DIR%\third-party\libpng\lib\ /S
+xcopy "dll-debug\*.lib" %ROOT_DIR%\third-party\libcurl\lib\ /S
+xcopy "dll-debug\*.dll" %ROOT_DIR%\third-party\libcurl\lib\ /S
 
 REM Copy include folder to third-party folder
 cd %ROOT_DIR%\tmp_libcurl\curl*\
-xcopy include %ROOT_DIR%\third-party\libpng\include\ /S 
+xcopy include %ROOT_DIR%\third-party\libcurl\include\ /S 
 
 REM Copy license information to third-party folder
-xcopy COPYING %ROOT_DIR%\third-party\libpng\ /S 
+xcopy COPYING %ROOT_DIR%\third-party\libcurl\ /S 
 
 REM Cleanup temporary file/folders
 cd %ROOT_DIR%
