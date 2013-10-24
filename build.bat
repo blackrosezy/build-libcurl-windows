@@ -119,7 +119,7 @@ xcopy COPYING %ROOT_DIR%\third-party\libcurl\ /S
 
 REM Cleanup temporary file/folders
 cd %ROOT_DIR%
-REM %RM% -rf tmp_*
+%RM% -rf tmp_*
 
 :end
 exit /b
