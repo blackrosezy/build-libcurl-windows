@@ -4,17 +4,10 @@ setlocal EnableDelayedExpansion
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
-REM Check if Visual Studio 2005 is installed
-set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 8"
+REM Check if Visual Studio 2012 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
 if exist %MSVCDIR% (
-	set COMPILER_VER="2005"
-	goto begin
-) 
-
-REM Check if Visual Studio 2008 is installed
-set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 9.0"
-if exist %MSVCDIR% (
-    set COMPILER_VER="2008"
+    set COMPILER_VER="2012"
 	goto begin
 )
 
@@ -25,12 +18,19 @@ if exist %MSVCDIR% (
 	goto begin
 )
 
-REM Check if Visual Studio 2012 is installed
-set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
+REM Check if Visual Studio 2008 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 9.0"
 if exist %MSVCDIR% (
-    set COMPILER_VER="2012"
+    set COMPILER_VER="2008"
 	goto begin
 )
+
+REM Check if Visual Studio 2005 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 8"
+if exist %MSVCDIR% (
+	set COMPILER_VER="2005"
+	goto begin
+) 
 
 echo Warning : Microsoft Visual Studio (2005, 2008, 2010 or 2012) is not installed.
 goto end
