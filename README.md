@@ -3,6 +3,11 @@ Auto download & compile libcurl
 
 This batch script will automatically download the latest libcurl source code and build it using Visual Studio compiler.
 
+Supported Visual Studio are:
+*  Visual Studio 2005
+*  Visual Studio 2010
+*  Visual Studio 2012
+
 Usage :
 
     $ build.bat
