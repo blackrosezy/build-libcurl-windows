@@ -81,10 +81,9 @@ echo Downloading latest curl...
 REM Extract downloaded zip file to tmp_libcurl
 %SEVEN_ZIP% x curl.zip -y -otmp_libcurl | FIND /V "ing  " | FIND /V "Igor Pavlov"
 
-echo "Using Visual Studio %COMPILER_VER%"
-
 if %COMPILER_VER% == "6" goto vc6
 if %COMPILER_VER% == "2005" goto vc2005
+if %COMPILER_VER% == "2008" goto vc2008
 if %COMPILER_VER% == "2010" goto vc2010
 if %COMPILER_VER% == "2012" goto vc2012
 if %COMPILER_VER% == "2013" goto vc2013
@@ -98,12 +97,13 @@ msdev vc6libcurl.dsp /MAKE ALL /build
 goto copy_files
 
 :vc2005
+:vc2008
 REM Upgrade libcurl project file to compatible installed Visual Studio version
 cd tmp_libcurl\curl*\vs\vc6\lib
 vcbuild /upgrade vc6libcurl.dsp
 
 REM Build!
-vcbuild vc6libcurl.vcproj /errfile:build_errors.txt /wrnfile:build_warnings.txt
+vcbuild vc6libcurl.vcproj
 goto copy_files
 
 :vc2010

@@ -6,6 +6,7 @@ This batch script will automatically download the latest libcurl source code and
 Supported Visual Studio are:
 *  Visual C++ 6 (require Windows Server 2003 Platform SDK released in February 2003)
 *  Visual Studio 2005
+*  Visual Studio 2008
 *  Visual Studio 2010
 *  Visual Studio 2012
 
