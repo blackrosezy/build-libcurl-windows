@@ -46,7 +46,7 @@ if exist %MSVCDIR% (
 	goto setup_env
 ) 
 
-echo Warning : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012 or 2013) is not installed.
+echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012 or 2013) is not installed.
 goto end
 
 :setup_env
