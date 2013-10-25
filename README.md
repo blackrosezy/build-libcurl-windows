@@ -37,6 +37,13 @@ Output :
 *  libcurld.dll
 *  libcurld_imp.lib
 
+## FAQ
+If you get message something like below, please re-run build.bat again.
+	**** Retrieving:http://curl.haxx.se/download.html ****
+	Downloading latest curl...
+	http://curl.haxx.seAn unhandled exception occurred at $004C7D39 :: Bad port numb
+	er.
+
 License (build.bat)
 -----------
 
