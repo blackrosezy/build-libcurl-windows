@@ -4,6 +4,7 @@ Auto download & compile libcurl
 This batch script will automatically download the latest libcurl source code and build it using Visual Studio compiler.
 
 Supported Visual Studio are:
+*  Visual C++ 6
 *  Visual Studio 2005
 *  Visual Studio 2010
 *  Visual Studio 2012
@@ -39,10 +40,10 @@ Output :
 
 ## FAQ
 If you get message something like below, please re-run build.bat again.
-	**** Retrieving:http://curl.haxx.se/download.html ****
-	Downloading latest curl...
-	http://curl.haxx.seAn unhandled exception occurred at $004C7D39 :: Bad port numb
-	er.
+
+    **** Retrieving:http://curl.haxx.se/download.html ****
+    Downloading latest curl...
+    http://curl.haxx.seAn unhandled exception occurred at $004C7D39 :: Bad port number.
 
 License (build.bat)
 -----------
