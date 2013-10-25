@@ -4,6 +4,13 @@ setlocal EnableDelayedExpansion
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
+REM Check if Visual Studio 2013 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 12.0"
+if exist %MSVCDIR% (
+    set COMPILER_VER="2013"
+	goto setup_env
+)
+
 REM Check if Visual Studio 2012 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
 if exist %MSVCDIR% (
