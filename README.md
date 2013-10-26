@@ -11,6 +11,8 @@ Supported Visual Studio are:
 *  Visual Studio 2012
 *  Visual Studio 2013
 
+Note: Visual Studio express (all versions) is unsupported.
+
 Usage :
 
     $ build.bat
