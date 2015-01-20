@@ -11,7 +11,8 @@ Supported Visual Studio are:
 *  Visual Studio 2012
 *  Visual Studio 2013
 
-Note: Visual Studio express (all versions) is unsupported.
+Note-1: Visual Studio express (all versions) is unsupported.
+Note-2: This script are using third-party softwares (`bin/7-zip`, `bin/unxutils`, and `bin/xidel`).
 
 Usage :
 
@@ -27,20 +28,22 @@ Output :
 
 ## Release
 **static linking**
-*  libcurl.lib
+*  libcurl_a.lib
     
 **dynamic linking (dll)**
 *  libcurl.dll
-*  libcurl_imp.lib
+*  libcurl.lib
+*  libcurl.pdb
 
 ## Debug
 
 **static linking**
-*  libcurld.lib
+*  libcurl_a_debug.lib
     
 **dynamic linking (dll)**
-*  libcurld.dll
-*  libcurld_imp.lib
+*  libcurl_debug.dll
+*  libcurl_debug.lib
+*  libcurl_debug.pdb
 
 ## FAQ
 If you get message something like below, please re-run build.bat again.
