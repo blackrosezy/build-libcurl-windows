@@ -88,71 +88,76 @@ echo Downloading latest curl...
 REM Extract downloaded zip file to tmp_libcurl
 %SEVEN_ZIP% x curl.zip -y -otmp_libcurl | FIND /V "ing  " | FIND /V "Igor Pavlov"
 
-if %COMPILER_VER% == "6" goto vc6
-if %COMPILER_VER% == "2005" goto vc2005
-if %COMPILER_VER% == "2008" goto vc2008
-if %COMPILER_VER% == "2010" goto vc2010
-if %COMPILER_VER% == "2012" goto vc2012
-if %COMPILER_VER% == "2013" goto vc2013
+cd tmp_libcurl\curl-*\winbuild
 
-:vc6
-REM Upgrade libcurl project file to compatible installed Visual Studio version
-cd tmp_libcurl\curl*\vs\vc6\lib
+if %COMPILER_VER% == "6" (
+	set VCVERSION = 6
+	goto buildnow
+)
 
-REM Build!
-msdev vc6libcurl.dsp /MAKE ALL /build
-goto copy_files
+if %COMPILER_VER% == "2005" (
+	set VCVERSION = 8
+	goto buildnow
+)
 
-:vc2005
-:vc2008
-REM Upgrade libcurl project file to compatible installed Visual Studio version
-cd tmp_libcurl\curl*\vs\vc6\lib
-vcbuild /upgrade vc6libcurl.dsp
+if %COMPILER_VER% == "2008" (
+	set VCVERSION = 9
+	goto buildnow
+)
 
-REM Build!
-vcbuild vc6libcurl.vcproj
-goto copy_files
+if %COMPILER_VER% == "2010" (
+	set VCVERSION = 10
+	goto buildnow
+)
 
-:vc2010
-:vc2012
-:vc2013
-REM Upgrade libcurl project file to compatible installed Visual Studio version
-cd tmp_libcurl\curl*\vs\vc6\lib
-vcupgrade vc6libcurl.dsp
+if %COMPILER_VER% == "2012" (
+	set VCVERSION = 11
+	goto buildnow
+)
 
+if %COMPILER_VER% == "2013" (
+	set VCVERSION = 12
+	goto buildnow
+)
+
+:buildnow
 REM Build!
 msbuild vc6libcurl.vcxproj /p:Configuration="DLL Debug" /t:Rebuild
 msbuild vc6libcurl.vcxproj /p:Configuration="DLL Release" /t:Rebuild
 msbuild vc6libcurl.vcxproj /p:Configuration="LIB Debug" /t:Rebuild
 msbuild vc6libcurl.vcxproj /p:Configuration="LIB Release" /t:Rebuild
-goto copy_files
 
-:copy_files
+nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
+nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes
+nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes
+nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no
 
-REM Copy compiled .*lib files in lib-release folder to third-party folder
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\lib-release
-%CP% lib-release\*.lib %ROOT_DIR%\third-party\libcurl\lib\lib-release
-
-REM Copy compiled .*lib files in lib-debug folder to third-party folder
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\lib-debug
-%CP% lib-debug\*.lib %ROOT_DIR%\third-party\libcurl\lib\lib-debug
-
-REM Copy compiled .*lib and *.dll files in dll-release folder to third-party folder
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-release
-%CP% dll-release\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-release
-%CP% dll-release\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-release
-
-REM Copy compiled .*lib and *.dll files in dll-debug folder to third-party folder
+REM Copy compiled .*lib, *.pdb, *.dll files folder to third-party\lib\dll-debug folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-debug-dll-ipv6-sspi-winssl
 %MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-debug
-%CP% dll-debug\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-debug
-%CP% dll-debug\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-debug
+%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-debug
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-debug
+%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-debug
+
+REM Copy compiled .*lib, *.pdb, *.dll files to third-party\lib\dll-release folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-release-dll-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-release
+%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-release
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-release
+%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-release
+
+REM Copy compiled .*lib file in lib-release folder to third-party\lib\static-debug folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-debug-static-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-debug
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-debug
+
+REM Copy compiled .*lib files in lib-release folder to third-party\lib\static-release folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-release-static-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-release
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-release
 
 REM Copy include folder to third-party folder
-cd %ROOT_DIR%\tmp_libcurl\curl*\
 %CP% -rf include %ROOT_DIR%\third-party\libcurl
-
-REM Copy license information to third-party folder
-%CP% COPYING %ROOT_DIR%\third-party\libcurl\
 
 REM Cleanup temporary file/folders
 cd %ROOT_DIR%
