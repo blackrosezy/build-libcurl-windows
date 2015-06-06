@@ -122,11 +122,6 @@ if %COMPILER_VER% == "2013" (
 
 :buildnow
 REM Build!
-msbuild vc6libcurl.vcxproj /p:Configuration="DLL Debug" /t:Rebuild
-msbuild vc6libcurl.vcxproj /p:Configuration="DLL Release" /t:Rebuild
-msbuild vc6libcurl.vcxproj /p:Configuration="LIB Debug" /t:Rebuild
-msbuild vc6libcurl.vcxproj /p:Configuration="LIB Release" /t:Rebuild
-
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes

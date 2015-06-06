@@ -11,9 +11,9 @@ Supported Visual Studio are:
 *  Visual Studio 2012
 *  Visual Studio 2013
 
-Note-1: Visual Studio express (all versions) is unsupported.
+*Note-1*: All version of Visual Studio express are unsupported.
 
-Note-2: This script are using third-party open source softwares (`bin/7-zip`, `bin/unxutils`, and `bin/xidel`).
+*Note-2*: This script is using third-party open source softwares (`bin/7-zip`, `bin/unxutils`, and `bin/xidel`).
 
 Usage :
 
