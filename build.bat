@@ -78,7 +78,7 @@ REM Housekeeping
 
 REM Get download url .Look under <blockquote><a type='application/zip' href='xxx'>
 echo Get download url...
-%XIDEL% http://curl.haxx.se/download.html -e "//blockquote/a[@type='application/zip']/@href" > tmp_url
+%XIDEL% http://curl.haxx.se/download.html -e "//a[@type='application/x-gzip' and ends-with(@href, '.zip')]/@href" > tmp_url
 set /p url=<tmp_url
 
 REM Download latest curl and rename to curl.zip
