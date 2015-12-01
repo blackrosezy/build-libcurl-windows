@@ -4,6 +4,12 @@ setlocal EnableDelayedExpansion
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
+REM Check if Visual Studio 2015 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
+if exist %MSVCDIR% (
+	set COMPILER_VER="2015"
+	goto setup_env
+)
 REM Check if Visual Studio 2013 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 12.0"
 if exist %MSVCDIR% (
@@ -117,6 +123,11 @@ if %COMPILER_VER% == "2012" (
 
 if %COMPILER_VER% == "2013" (
 	set VCVERSION = 12
+	goto buildnow
+)
+
+if %COMPILER_VER% == "2015" (
+	set VCVERSION = 14
 	goto buildnow
 )
 
