@@ -1,5 +1,6 @@
 Auto download & compile libcurl
 -----------
+[![Build status](https://ci.appveyor.com/api/projects/status/1837jha0re1vbtw5?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows)
 
 This batch script will automatically download the latest libcurl source code and build it using Visual Studio compiler.
 
