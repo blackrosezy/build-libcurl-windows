@@ -1,7 +1,5 @@
 Auto download & compile libcurl
 -----------
-[![Build status](https://ci.appveyor.com/api/projects/status/1837jha0re1vbtw5?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows)
-
 This batch script will automatically download the latest libcurl source code and build it using Visual Studio compiler.
 
 Supported Visual Studio are:
@@ -10,7 +8,8 @@ Supported Visual Studio are:
 *  Visual Studio 2008
 *  Visual Studio 2010
 *  Visual Studio 2012
-*  Visual Studio 2013
+*  Visual Studio 2013 [![Build status](https://ci.appveyor.com/api/projects/status/1837jha0re1vbtw5?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows)
+
 
 *Note-1*: All version of Visual Studio express are unsupported.
 
