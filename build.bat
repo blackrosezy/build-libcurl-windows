@@ -8,12 +8,14 @@ REM Check if Visual Studio 2015 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
 if exist %MSVCDIR% (
 	set COMPILER_VER="2015"
+    echo Using Visual Studio 2015
 	goto setup_env
 )
 REM Check if Visual Studio 2013 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 12.0"
 if exist %MSVCDIR% (
     set COMPILER_VER="2013"
+    echo Using Visual Studio 2013
 	goto setup_env
 )
 
@@ -21,6 +23,7 @@ REM Check if Visual Studio 2012 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
 if exist %MSVCDIR% (
     set COMPILER_VER="2012"
+    echo Using Visual Studio 2012
 	goto setup_env
 )
 
@@ -28,6 +31,7 @@ REM Check if Visual Studio 2010 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 10.0"
 if exist %MSVCDIR% (
     set COMPILER_VER="2010"
+    echo Using Visual Studio 2010
 	goto setup_env
 )
 
@@ -35,6 +39,7 @@ REM Check if Visual Studio 2008 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 9.0"
 if exist %MSVCDIR% (
     set COMPILER_VER="2008"
+    echo Using Visual Studio 2008
 	goto setup_env
 )
 
@@ -42,6 +47,7 @@ REM Check if Visual Studio 2005 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 8"
 if exist %MSVCDIR% (
 	set COMPILER_VER="2005"
+    echo Using Visual Studio 2005
 	goto setup_env
 ) 
 
@@ -49,6 +55,7 @@ REM Check if Visual Studio 6 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\VC98"
 if exist %MSVCDIR% (
 	set COMPILER_VER="6"
+    echo Using Visual Studio 6
 	goto setup_env
 ) 
 
@@ -132,15 +139,29 @@ if %COMPILER_VER% == "2015" (
 :buildnow
 REM Build!
 call %MSVCDIR%\VC\vcvarsall.bat x86
+echo Compiling dll-debug-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
+
+echo Compiling dll-release-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes
+
+echo Compiling static-debug-x86 version...
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes
+
+echo Compiling static-release-x86 version...
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no
 
 call %MSVCDIR%\VC\vcvarsall.bat x64
+echo Compiling dll-debug-x64 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes MACHINE=x64
+
+echo Compiling dll-release-x64 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes MACHINE=x64
+
+echo Compiling static-debug-x64 version...
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes MACHINE=x64
+
+echo Compiling static-release-x64 version...
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no MACHINE=x64
 
 REM Copy compiled .*lib, *.pdb, *.dll files folder to third-party\lib\dll-debug folder
