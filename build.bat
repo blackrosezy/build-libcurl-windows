@@ -63,8 +63,6 @@ if %COMPILER_VER% == "6" (
 	goto begin
 )
 
-call %MSVCDIR%\VC\vcvarsall.bat x86
-
 :begin
 
 REM Setup path to helper bin
@@ -133,34 +131,66 @@ if %COMPILER_VER% == "2015" (
 
 :buildnow
 REM Build!
+call %MSVCDIR%\VC\vcvarsall.bat x86
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no
 
+call %MSVCDIR%\VC\vcvarsall.bat x64
+nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes MACHINE=x64
+nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes MACHINE=x64
+nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes MACHINE=x64
+nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no MACHINE=x64
+
 REM Copy compiled .*lib, *.pdb, *.dll files folder to third-party\lib\dll-debug folder
 cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-debug-dll-ipv6-sspi-winssl
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-debug
-%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-debug
-%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-debug
-%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-debug
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x86
+%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x86
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x86
+%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x86
 
 REM Copy compiled .*lib, *.pdb, *.dll files to third-party\lib\dll-release folder
 cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-release-dll-ipv6-sspi-winssl
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-release
-%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-release
-%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-release
-%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-release
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-release-x86
+%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-release-x86
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-release-x86
+%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-release-x86
 
 REM Copy compiled .*lib file in lib-release folder to third-party\lib\static-debug folder
 cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-debug-static-ipv6-sspi-winssl
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-debug
-%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-debug
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-debug-x86
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-debug-x86
 
 REM Copy compiled .*lib files in lib-release folder to third-party\lib\static-release folder
 cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-release-static-ipv6-sspi-winssl
-%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-release
-%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-release
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-release-x86
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-release-x86
+
+REM Copy compiled .*lib, *.pdb, *.dll files folder to third-party\lib\dll-debug folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x64-debug-dll-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x64
+%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x64
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x64
+%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-debug-x64
+
+REM Copy compiled .*lib, *.pdb, *.dll files to third-party\lib\dll-release folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x64-release-dll-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\dll-release-x64
+%CP% lib\*.pdb %ROOT_DIR%\third-party\libcurl\lib\dll-release-x64
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\dll-release-x64
+%CP% bin\*.dll %ROOT_DIR%\third-party\libcurl\lib\dll-release-x64
+
+REM Copy compiled .*lib file in lib-release folder to third-party\lib\static-debug folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x64-debug-static-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-debug-x64
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-debug-x64
+
+REM Copy compiled .*lib files in lib-release folder to third-party\lib\static-release folder
+cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x64-release-static-ipv6-sspi-winssl
+%MKDIR% -p %ROOT_DIR%\third-party\libcurl\lib\static-release-x64
+%CP% lib\*.lib %ROOT_DIR%\third-party\libcurl\lib\static-release-x64
+
 
 REM Copy include folder to third-party folder
 %CP% -rf include %ROOT_DIR%\third-party\libcurl
