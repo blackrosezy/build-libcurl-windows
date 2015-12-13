@@ -9,6 +9,7 @@ Supported Visual Studio are:
 *  Visual Studio 2010
 *  Visual Studio 2012
 *  Visual Studio 2013 [![Build status](https://ci.appveyor.com/api/projects/status/1837jha0re1vbtw5?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows)
+*  Visual Studio 2015 [![Build status](https://ci.appveyor.com/api/projects/status/ykm8b06h3x7855eo?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows-unln0)
 
 
 *Note-1*: All version of Visual Studio express are unsupported.
