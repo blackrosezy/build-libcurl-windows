@@ -12,9 +12,12 @@ Supported Visual Studio are:
 *  Visual Studio 2015 [![Build status](https://ci.appveyor.com/api/projects/status/ykm8b06h3x7855eo?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows-unln0)
 
 
-*Note-1*: All version of Visual Studio express are unsupported.
+*Note-1*: All version of **Visual Studio express are unsupported**.
 
-*Note-2*: This script is using third-party open source softwares (`bin/7-zip`, `bin/unxutils`, and `bin/xidel`).
+*Note-2*: This script is using third-party open source software
+* `bin/7-zip` http://www.7-zip.org/download.html
+* `bin/unxutils` http://sourceforge.net/projects/unxutils/
+* `bin/xidel` http://sourceforge.net/projects/videlibri/files/Xidel/
 
 Usage :
 
