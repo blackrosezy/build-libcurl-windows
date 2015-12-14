@@ -22,30 +22,54 @@ Usage :
 
 Output :
 
-    third-party
-    |-- libcurl
-    |    |-- include
-    |    +-- lib
-    
-
-## Release
-**static linking**
-*  libcurl_a.lib
-    
-**dynamic linking (dll)**
-*  libcurl.dll
-*  libcurl.lib
-*  libcurl.pdb
-
-## Debug
-
-**static linking**
-*  libcurl_a_debug.lib
-    
-**dynamic linking (dll)**
-*  libcurl_debug.dll
-*  libcurl_debug.lib
-*  libcurl_debug.pdb
+```
+third-party
+└───libcurl
+    ├───include
+    │   └───curl
+    │           curl.h
+    │           curlbuild.h
+    │           curlrules.h
+    │           curlver.h
+    │           easy.h
+    │           mprintf.h
+    │           multi.h
+    │           stdcheaders.h
+    │           typecheck-gcc.h
+    │
+    └───lib
+        ├───dll-debug-x64
+        │       libcurl_debug.dll
+        │       libcurl_debug.lib
+        │       libcurl_debug.pdb
+        │
+        ├───dll-debug-x86
+        │       libcurl_debug.dll
+        │       libcurl_debug.lib
+        │       libcurl_debug.pdb
+        │
+        ├───dll-release-x64
+        │       libcurl.dll
+        │       libcurl.lib
+        │       libcurl.pdb
+        │
+        ├───dll-release-x86
+        │       libcurl.dll
+        │       libcurl.lib
+        │       libcurl.pdb
+        │
+        ├───static-debug-x64
+        │       libcurl_a_debug.lib
+        │
+        ├───static-debug-x86
+        │       libcurl_a_debug.lib
+        │
+        ├───static-release-x64
+        │       libcurl_a.lib
+        │
+        └───static-release-x86
+                libcurl_a.lib
+```
 
 ## FAQ
 If you get message something like below, please re-run build.bat again.
