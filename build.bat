@@ -6,60 +6,81 @@ if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
 REM Check if Visual Studio 2015 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"        
 if exist %MSVCDIR% (
-	set COMPILER_VER="2015"
-    echo Using Visual Studio 2015
+  if exist %VCVARSALLPATH% (
+   	set COMPILER_VER="2015"
+        echo Using Visual Studio 2015
 	goto setup_env
+  )
 )
 REM Check if Visual Studio 2013 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 12.0"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
     set COMPILER_VER="2013"
     echo Using Visual Studio 2013
 	goto setup_env
+  )
 )
 
 REM Check if Visual Studio 2012 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 11.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
     set COMPILER_VER="2012"
     echo Using Visual Studio 2012
 	goto setup_env
+  )
 )
 
 REM Check if Visual Studio 2010 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 10.0"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
     set COMPILER_VER="2010"
     echo Using Visual Studio 2010
 	goto setup_env
+  )
 )
 
 REM Check if Visual Studio 2008 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 9.0"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
     set COMPILER_VER="2008"
     echo Using Visual Studio 2008
 	goto setup_env
+  )
 )
 
 REM Check if Visual Studio 2005 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 8"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 8\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
 	set COMPILER_VER="2005"
     echo Using Visual Studio 2005
 	goto setup_env
+  )
 ) 
 
 REM Check if Visual Studio 6 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\VC98"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\VC98\vcvarsall.bat"
 if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
 	set COMPILER_VER="6"
     echo Using Visual Studio 6
 	goto setup_env
+  )
 ) 
 
-echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012 or 2013) is not installed.
+echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012, 2013 or 2015) is not installed.
 goto end
 
 :setup_env
@@ -138,6 +159,7 @@ if %COMPILER_VER% == "2015" (
 
 :buildnow
 REM Build!
+echo "%MSVCDIR%\VC\vcvarsall.bat"
 call %MSVCDIR%\VC\vcvarsall.bat x86
 echo Compiling dll-debug-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
