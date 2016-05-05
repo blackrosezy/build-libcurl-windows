@@ -113,6 +113,9 @@ echo Get download url...
 %XIDEL% http://curl.haxx.se/download.html -e "//a[@type='application/zip' and ends-with(@href, '.zip')]/@href" > tmp_url
 set /p url=<tmp_url
 
+REM exit on errors, else continue
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 REM Download latest curl and rename to curl.zip
 echo Downloading latest curl...
 %WGET% "http://curl.haxx.se%url%" -O curl.zip
