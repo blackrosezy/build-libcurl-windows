@@ -171,10 +171,10 @@ echo Compiling dll-release-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes
 
 echo Compiling static-debug-x86 version...
-nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes
+nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=yes
 
 echo Compiling static-release-x86 version...
-nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no
+nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=no
 
 call %MSVCDIR%\VC\vcvarsall.bat x64
 echo Compiling dll-debug-x64 version...
@@ -184,10 +184,10 @@ echo Compiling dll-release-x64 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=no GEN_PDB=yes MACHINE=x64
 
 echo Compiling static-debug-x64 version...
-nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes MACHINE=x64
+nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=yes MACHINE=x64
 
 echo Compiling static-release-x64 version...
-nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no MACHINE=x64
+nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=no MACHINE=x64
 
 REM Copy compiled .*lib, *.pdb, *.dll files folder to third-party\lib\dll-debug folder
 cd %ROOT_DIR%\tmp_libcurl\curl-*\builds\libcurl-vc-x86-debug-dll-ipv6-sspi-winssl
