@@ -1,12 +1,23 @@
 @echo off
-setlocal EnableDelayedExpansion 
+setlocal EnableDelayedExpansion
 
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
+REM Check if Visual Studio 2017 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2017"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
+if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
+       set COMPILER_VER="2017"
+        echo Using Visual Studio 2017
+    goto setup_env
+  )
+)
+
 REM Check if Visual Studio 2015 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
-set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"        
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
    	set COMPILER_VER="2015"
@@ -67,7 +78,7 @@ if exist %MSVCDIR% (
     echo Using Visual Studio 2005
 	goto setup_env
   )
-) 
+)
 
 REM Check if Visual Studio 6 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\VC98"
@@ -78,9 +89,9 @@ if exist %MSVCDIR% (
     echo Using Visual Studio 6
 	goto setup_env
   )
-) 
+)
 
-echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012, 2013 or 2015) is not installed.
+echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012, 2013, 2015 or 2017) is not installed.
 goto end
 
 :setup_env
@@ -160,10 +171,15 @@ if %COMPILER_VER% == "2015" (
 	goto buildnow
 )
 
+if %COMPILER_VER% == "2017" (
+    set VCVERSION = 15
+    goto buildnow
+)
+
 :buildnow
 REM Build!
 echo "%MSVCDIR%\VC\vcvarsall.bat"
-call %MSVCDIR%\VC\vcvarsall.bat x86
+call %VCVARSALLPATH% x86
 echo Compiling dll-debug-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
 
@@ -176,7 +192,7 @@ nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=yes
 echo Compiling static-release-x86 version...
 nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=no
 
-call %MSVCDIR%\VC\vcvarsall.bat x64
+call %VCVARSALLPATH% x64
 echo Compiling dll-debug-x64 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes MACHINE=x64
 
