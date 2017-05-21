@@ -1,9 +1,15 @@
 @echo off
 setlocal EnableDelayedExpansion 
 
+
+IF DEFINED VS_VERSION_OVERRIDE (
+	GOTO %VS_VERSION_OVERRIDE%
+)
+
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
+:VS2015
 REM Check if Visual Studio 2015 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"        
@@ -14,6 +20,8 @@ if exist %MSVCDIR% (
 	goto setup_env
   )
 )
+
+:VS2013
 REM Check if Visual Studio 2013 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 12.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
@@ -25,6 +33,7 @@ if exist %MSVCDIR% (
   )
 )
 
+:VS2012
 REM Check if Visual Studio 2012 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 11.0\VC\vcvarsall.bat"
@@ -36,6 +45,7 @@ if exist %MSVCDIR% (
   )
 )
 
+:VS2010
 REM Check if Visual Studio 2010 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 10.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
@@ -47,6 +57,7 @@ if exist %MSVCDIR% (
   )
 )
 
+:VS2008
 REM Check if Visual Studio 2008 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 9.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"
@@ -58,6 +69,7 @@ if exist %MSVCDIR% (
   )
 )
 
+:VS2005
 REM Check if Visual Studio 2005 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 8"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 8\VC\vcvarsall.bat"
@@ -69,6 +81,7 @@ if exist %MSVCDIR% (
   )
 ) 
 
+:VS6
 REM Check if Visual Studio 6 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\VC98"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\VC98\vcvarsall.bat"
@@ -91,8 +104,16 @@ if %COMPILER_VER% == "6" (
 	goto begin
 )
 
-:begin
+if DEFINED VS_VERSION_OVERRIDE (
+	echo Specifically asked for %VS_VERSION_OVERRIDE%, skipping other checks
+	goto begin
+)
 
+:begin
+if DEFINED DRY_RUN (
+	echo Dry run, exiting before building anything
+	exit
+)
 REM Setup path to helper bin
 set ROOT_DIR="%CD%"
 set RM="%CD%\bin\unxutils\rm.exe"
