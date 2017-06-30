@@ -121,7 +121,7 @@ REM Housekeeping
 
 REM Get download url .Look under <blockquote><a type='application/zip' href='xxx'>
 echo Get download url...
-%XIDEL% http://curl.haxx.se/download.html -e "//a[@type='application/zip' and ends-with(@href, '.zip')]/@href" > tmp_url
+%XIDEL% https://curl.haxx.se/download.html -e "//a[@type='application/zip' and ends-with(@href, '.zip')]/@href" > tmp_url
 set /p url=<tmp_url
 
 REM exit on errors, else continue
@@ -129,7 +129,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 
 REM Download latest curl and rename to curl.zip
 echo Downloading latest curl...
-%WGET% "http://curl.haxx.se%url%" -O curl.zip
+%WGET% "https://curl.haxx.se%url%" -O curl.zip
 
 REM Extract downloaded zip file to tmp_libcurl
 %SEVEN_ZIP% x curl.zip -y -otmp_libcurl | FIND /V "ing  " | FIND /V "Igor Pavlov"
