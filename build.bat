@@ -179,7 +179,10 @@ if %COMPILER_VER% == "2017" (
 :buildnow
 REM Build!
 echo "%MSVCDIR%\VC\vcvarsall.bat"
+
 call %VCVARSALLPATH% x86
+cd /d "%ROOT_DIR%\tmp_libcurl\curl-*\winbuild"
+
 echo Compiling dll-debug-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
 
@@ -193,6 +196,8 @@ echo Compiling static-release-x86 version...
 nmake /f Makefile.vc mode=static RTLIBCFG=static VC=%VCVERSION% DEBUG=no
 
 call %VCVARSALLPATH% x64
+cd /d "%ROOT_DIR%\tmp_libcurl\curl-*\winbuild"
+
 echo Compiling dll-debug-x64 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes MACHINE=x64
 
