@@ -12,7 +12,7 @@ Supported Visual Studio are:
 *  Visual Studio 2015 [![Build status](https://ci.appveyor.com/api/projects/status/ykm8b06h3x7855eo?svg=true)](https://ci.appveyor.com/project/blackrosezy/build-libcurl-windows-unln0)
 
 
-*Note-1*: All version of **Visual Studio express are unsupported**.
+*Note-1*: All versions of **Visual Studio Express are unsupported**.
 
 *Note-2*: This script is using third-party open source software
 * `bin/7-zip` http://www.7-zip.org/download.html
@@ -22,6 +22,10 @@ Supported Visual Studio are:
 Usage :
 
     $ build.bat
+
+To build using /MT rather than /MD:
+
+    $ build.bat -static 
 
 Output :
 

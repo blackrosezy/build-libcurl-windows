@@ -162,6 +162,12 @@ if %COMPILER_VER% == "2015" (
 
 :buildnow
 REM Build!
+
+if [%1]==[-static] (
+	set RTLIBCFG=static
+	echo Using /MT instead of /MD
+) 
+
 echo "%MSVCDIR%\VC\vcvarsall.bat"
 call %MSVCDIR%\VC\vcvarsall.bat x86
 echo Compiling dll-debug-x86 version...
