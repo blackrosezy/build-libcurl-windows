@@ -4,9 +4,19 @@ setlocal EnableDelayedExpansion
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
+REM Check if Visual Studio 2017 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2017"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
+if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
+   	set COMPILER_VER="2017"
+    echo Using Visual Studio 2017 Community
+	goto setup_env
+  )
+)
 REM Check if Visual Studio 2015 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
-set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"        
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
    	set COMPILER_VER="2015"
@@ -99,7 +109,6 @@ set RM="%CD%\bin\unxutils\rm.exe"
 set CP="%CD%\bin\unxutils\cp.exe"
 set MKDIR="%CD%\bin\unxutils\mkdir.exe"
 set SEVEN_ZIP="%CD%\bin\7-zip\7za.exe"
-set WGET="%CD%\bin\unxutils\wget.exe"
 set XIDEL="%CD%\bin\xidel\xidel.exe"
 
 REM Housekeeping
@@ -110,7 +119,7 @@ REM Housekeeping
 
 REM Get download url .Look under <blockquote><a type='application/zip' href='xxx'>
 echo Get download url...
-%XIDEL% http://curl.haxx.se/download.html -e "//a[@type='application/zip' and ends-with(@href, '.zip')]/@href" > tmp_url
+%XIDEL% https://curl.haxx.se/download.html -e "//a[@type='application/zip' and ends-with(@href, '.zip')]/@href" > tmp_url
 set /p url=<tmp_url
 
 REM exit on errors, else continue
@@ -118,7 +127,8 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 
 REM Download latest curl and rename to curl.zip
 echo Downloading latest curl...
-%WGET% "http://curl.haxx.se%url%" -O curl.zip
+set "LOCAL_CURL=%~dp0\curl.zip"
+bitsadmin.exe /transfer "curltransfer" "https://curl.haxx.se%url%" "%LOCAL_CURL%"
 
 REM Extract downloaded zip file to tmp_libcurl
 %SEVEN_ZIP% x curl.zip -y -otmp_libcurl | FIND /V "ing  " | FIND /V "Igor Pavlov"
@@ -159,17 +169,23 @@ if %COMPILER_VER% == "2015" (
 	set VCVERSION = 14
 	goto buildnow
 )
+if %COMPILER_VER% == "2017" (
+	set VCVERSION = 15
+	goto buildnow
+)
 
 :buildnow
 REM Build!
+echo "Building libcurl now!"
 
 if [%1]==[-static] (
 	set RTLIBCFG=static
 	echo Using /MT instead of /MD
 ) 
 
-echo "%MSVCDIR%\VC\vcvarsall.bat"
-call %MSVCDIR%\VC\vcvarsall.bat x86
+echo "Path to vcvarsall.bat: %VCVARSALLPATH%"
+call %VCVARSALLPATH% x86
+
 echo Compiling dll-debug-x86 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes
 
@@ -182,7 +198,7 @@ nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=yes
 echo Compiling static-release-x86 version...
 nmake /f Makefile.vc mode=static VC=%VCVERSION% DEBUG=no
 
-call %MSVCDIR%\VC\vcvarsall.bat x64
+call %VCVARSALLPATH% x64
 echo Compiling dll-debug-x64 version...
 nmake /f Makefile.vc mode=dll VC=%VCVERSION% DEBUG=yes MACHINE=x64
 
@@ -252,4 +268,5 @@ cd %ROOT_DIR%
 %RM% -rf tmp_*
 
 :end
+echo Done.
 exit /b
